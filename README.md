@@ -14,3 +14,8 @@ vp09.00.10.08
 vp8
 
 avc1.42e01f   //h264
+
+https://developer.mozilla.org/en-US/docs/Web/API/VideoEncoder
+
+![image](https://user-images.githubusercontent.com/12508540/174755414-9b06ac27-2355-42ba-b7f3-c82f55d71964.png)
+
