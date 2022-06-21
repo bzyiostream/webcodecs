@@ -40,10 +40,7 @@ app.get('/pub', (req, res) => {
 
 let server = https.listen(8000);
 
-let pub = null;
-let sub = [];
-
-function createWebSocketServer(server, onConnection, onClose, onError) {
+function createWebSocketServer(server) {
     let wss = new WebSocketServer({
         server: server
     });
@@ -52,71 +49,15 @@ function createWebSocketServer(server, onConnection, onClose, onError) {
             client.send(data);
         });
     };
-    onConnection = onConnection || function () {
-        console.log('[WebSocket] connected.');
-    };
-    onClose = onClose || function (code, message) {
-        console.log(`[WebSocket] closed: ${code} - ${message}`);
-    };
-    onError = onError || function (err) {
-        console.log('[WebSocket] error: ' + err);
-    };
     wss.on('connection', function (ws) {
-        // console.log(ws.url);
-        // let location = url.parse(ws.url, true);
-        // console.log('[WebSocketServer] connection: ' + location.href);
         ws.on('message', (data)=>{wss.broadcast(data)});
-        ws.on('close', onClose);
-        ws.on('error', onError);
-        // if (location.pathname == '/pub') {
-        //     pub = ws;
-        // }
-        // if (location.pathname == '/sub') {
-        //     sub.push(ws);
-        // }
+        ws.on('close', ()=>{});
+        ws.on('error', ()=>{});
     });
     console.log('WebSocketServer was attached.');
     return wss;
 }
 
-var messageIndex = 0;
-
-function createMessage(type, user, data) {
-    messageIndex ++;
-    return JSON.stringify({
-        id: messageIndex,
-        type: type,
-        user: user,
-        data: data
-    });
-}
-
-function onConnect() {
-    // let user = this.user;
-    // let msg = createMessage('join', user, `${user.name} joined.`);
-    // this.wss.broadcast(msg);
-    // // build user list:
-    // let users = this.wss.clients.map(function (client) {
-    //     return client.user;
-    // });
-    // this.send(createMessage('list', user, users));
-}
-
-// function onMessage(message) {
-//     this.wss.broadcast(message);
-//     // console.log(message);
-//     // if (message && message.trim()) {
-//     //     let msg = createMessage('chat', this.user, message.trim());
-//     //     this.wss.broadcast(msg);
-//     // }
-// }
-
-function onClose() {
-    // let user = this.user;
-    // let msg = createMessage('left', user, `${user.name} is left.`);
-    // this.wss.broadcast(msg);
-}
-
-createWebSocketServer(server, onConnect, onClose);
+createWebSocketServer(server);
 
 console.log('app started at port 8000...');
