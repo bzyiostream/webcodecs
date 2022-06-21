@@ -7,4 +7,10 @@ webcodecs 需要使用https
 
 局域网100ms
 
-av01.0.01M.08
+av01.0.01M.08  //av1
+
+vp09.00.10.08
+
+vp8
+
+avc1.42e01f   //h264
